@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendez-vous Hôpital</title>
+</head>
+<body>
+    <h2>Prendre un Rendez-vous</h2>
+    <form id="rdvForm">
+        <input type="text" id="nom" placeholder="Votre Nom" required><br>
+        <input type="email" id="email" placeholder="Votre Email" required><br>
+        <input type="date" id="date" required><br>
+        <button type="submit">Envoyer</button>
+    </form>
+    <script>
+        document.getElementById("rdvForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            fetch("/rendezvous", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    nom: document.getElementById("nom").value,
+                    email: document.getElementById("email").value,
+                    date: document.getElementById("date").value
+                })
+            }).then(response => response.json())
+              .then(data => alert(data.message));
+        });
+    </script>
+</body>
+</html>
